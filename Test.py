@@ -1,18 +1,38 @@
-#A pandigital number contains all digits (0-9) at least once. Write a function that takes an integer, returning true if the integer is pandigital, and false otherwise.
-#Sample input : 1234567890
-#Output : True
- 
-Sample input : 1123456890
-Output : False
- 
-def	is_pandigital_num(num):
-    numList=[0,1,2,3,4,5,6,7,8,9]
-    
-    for i in numList:
-        if i in str(num):
-            continue
-        else:
-            return False
+import sqlite3
+def create_table():
+    conn=sqlite3.connect("litle.db")
+    cur=conn.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS store (item TEXT, quantity INTEGER, price REAL)")
+    conn.commit()
+    conn.close()
 
-    return True
+def insert_table(item,quantity,price):
+    conn=sqlite3.connect("litle.db")
+    cur=conn.cursor()
+    cur.execute("INSERT INTO store VALUES (?,?,?)",(item,quantity,price))
+    conn.commit()
+    conn.close()   
+
+def view():
+    conn=sqlite3.connect("litle.db")
+    cur=conn.cursor()    
+    cur.execute("SELECT * FROM store")
+    rows=cur.fetchall()
+    conn.close()
+    return rows
+
+def delet(item):
+    conn=sqlite3.connect("litle.db")
+    cur=conn.cursor()    
+    cur.execute("DELETE FROM store WHERE item=?",(item,))
+    conn.commit()
+    conn.close
+    
+def update(quantity,price,item):
+    conn=sqlite3.connect("litle.db")
+    cur=conn.cursor()    
+    cur.execute("UPDATE store SET quantity=?,price=? WHERE item=?",(quantity,price,item))
+    conn.commit()
+    conn.close    
+    
 
